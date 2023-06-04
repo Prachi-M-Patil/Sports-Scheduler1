@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title class="bg-pink-600">Sport Scheduler</title>
+</head>
+<body class="bg-pink-600">
+    <%- include('header',{page: 'signout'})%>
+    <div class="container m-auto p-auto my-10">
+        <div>
+            <a href="/">Home</a> > <a href="/sportsession/<%= sportId.id %>"><%= sportId.sportName %></a> > 
+        </div>
+        <ul>
+            <% if(messages && messages.error && messages.error.length > 0)  { %>
+              <% for(var i=0; i<messages.error.length; i++) { %>
+                      <li class="text-red-600"> <%= messages.error[i] %></li>
+              <% } %>
+            <% } %>
+          </ul>
+        <form class="container mx-auto my-10" action="/createsession" method="POST">
+            <h2 class="text-6xl my-10">Create Session</h2>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
+            <input type="text" name="nameOfSport" id="nameOfSport" class="hidden" value="<%= sportId.id %>" hidden>
+            <input type="text" name="user" id="user" class="hidden" value="<%= getUser.role %>" hidden>
+            <div>
+                <p class=" mb-0 text-2xl">Input Date and Time of session</p>
+                <input type="datetime-local" name="dateTime" id="date" class="border-2 mt-4 p-2 rounded w-60 ">
+            </div>
+            <div>
+                <p class=" mb-0 text-2xl">Input Place of the session:</p>
+                <textarea name="sessionsPlace" id="sessionsPlace" cols="50" rows="5" class="border-2 mt-4 p-2 rounded "></textarea>
+                
+            </div>
+            <div>
+                <p class=" mb-0 text-2xl">Enter the players joining the sessions(comma-seperated)</p>
+                <input type="text" name="playersName" id="playersName" class="border-2 mt-4 p-2 rounded w-full ">
+            </div>
+            <div>
+                <p class=" mb-0 text-2xl">Input total No. of Players</p>
+                <input type="number" name="noOfPlayers" id="noOfPlayers" class="border-2 mt-4 p-2 rounded w-60 ">
+            </div>
+            <div>
+                <input type="submit" name="submit" id="submit" class=" text-white p-2 cursor-pointer rounded-lg border-2  hover:bg-white hover:text-black mt-5">
+            </div>
+        </form>
+  
+    </div>
+    <%- include('footer')%>
+</body>
+</html>
